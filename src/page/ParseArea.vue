@@ -63,7 +63,7 @@ export default {
           result.table = tableName;
           result.upperName = util.getUpperName(tableName);
           const fields = util.getFields(tableStep.body);
-          result.fileds = fields.length > 0 ? fields : [filedDemo];
+          result.fileds = fields;
           result.types = util.getTypes(fields);
           this.editor.setValue(JSON.stringify(result));
         }
