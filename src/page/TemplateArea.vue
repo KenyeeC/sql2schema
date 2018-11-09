@@ -2,7 +2,8 @@
   <div class="area">
     <p>template&nbsp;&nbsp;
       <a href="http://olado.github.io/doT/" target="blank">查看 doT 语法</a>&nbsp;&nbsp;
-      <a href="javascript:void(0)" @click="this.toLocal">保存到 localstorage</a>
+      <a href="javascript:void(0)" @click="this.toLocal">保存此模板</a>&nbsp;&nbsp;
+      <a href="javascript:void(0)" @click="this.delLocal">还原默认模板</a>
     </p>
     <textarea id="tmpl"/>
   </div>
@@ -12,13 +13,13 @@
 import schemaTpl from "../assets/schemaTpl.js";
 import CodeMirror from "codemirror/lib/codemirror";
 import "codemirror/mode/handlebars/handlebars";
-import localstorage from "../tools/localStorage"
+import localstorage from "../tools/localStorage";
 export default {
   data() {
     return {
       editor: null,
       tmpl: schemaTpl,
-      storeKey: 'tmpl'
+      storeKey: "tmpl"
     };
   },
   methods: {
@@ -28,9 +29,9 @@ export default {
         theme: "monokai",
         extraKeys: { Ctrl: "autocomplete" }
       });
-      const storeTmpl = localstorage.get(this.storeKey)
-      const tmpl = storeTmpl || schemaTpl
-      this.editor.setValue(tmpl)
+      const storeTmpl = localstorage.get(this.storeKey);
+      const tmpl = storeTmpl || schemaTpl;
+      this.editor.setValue(tmpl);
       this.setTemplate(tmpl);
       this.editor.on("change", editor => {
         this.setTemplate(editor.getValue());
@@ -39,9 +40,16 @@ export default {
     setTemplate(tmpl) {
       this.$parent.setTemplate(tmpl);
     },
-    toLocal(){
-      this.$parent.setTips('Done!')
-      localstorage.set(this.storeKey, this.editor.getValue())
+    toLocal() {
+      localstorage.set(this.storeKey, this.editor.getValue());
+      this.$parent.setTips("Done!");
+    },
+    delLocal() {
+      const confirm = window.confirm("确定还原?");
+      if (!confirm) return;
+      localstorage.del(this.storeKey);
+      this.editor.setValue(schemaTpl)
+      this.$parent.setTips("Done!");
     }
   },
   mounted() {

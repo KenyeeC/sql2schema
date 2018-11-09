@@ -15,5 +15,8 @@ export default {
       data = value;
     }
     window.localStorage.setItem(key, data);
+  },
+  del(key) {
+    window.localStorage.removeItem(key);
   }
 };

@@ -26,7 +26,10 @@ export default {
       try {
         if (this.parseData) {
           const tmplFn = doT.template(this.tmpl);
-          this.editor.setValue(tmplFn(this.parseData));
+          const data = tmplFn(this.parseData)
+          this.editor.setValue(data.replace(/\\n/g, `
+          
+`));
         }
       } catch (e) {
         this.placeholder = this.parseData

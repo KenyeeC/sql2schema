@@ -5,7 +5,7 @@ export default `const { GraphQLObjectType,
  {{? it.types.includes('GraphQLDateTime') }}
  const { GraphQLDateTime } = require('graphql-iso-date');
  {{? }}
-
+\\n
 const {{= it.upperName}} = new GraphQLObjectType({
   description: '{{= it.upperName}}',
   name: '{{= it.upperName}}',
