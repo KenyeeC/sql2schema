@@ -9,6 +9,7 @@
       <ParseArea :sql="sql" :isError="this.isError['parse-area']"/>
       <TemplateArea  />
     </div>
+    <Tips ref="tips" />
   </div>
 </template>
 
@@ -17,9 +18,11 @@ import TemplateArea from "./page/TemplateArea.vue";
 import SqlArea from "./page/SqlArea.vue";
 import SchemaArea from "./page/SchemaArea.vue";
 import ParseArea from "./page/ParseArea.vue";
+import Tips from "./component/Tips.vue";
 import "./tools/placeholder";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/monokai.css";
+
 
 export default {
   name: "app",
@@ -27,7 +30,8 @@ export default {
     TemplateArea,
     SqlArea,
     SchemaArea,
-    ParseArea
+    ParseArea,
+    Tips
   },
   data() {
     return {
@@ -39,7 +43,7 @@ export default {
       },
       sql: "",
       parseData: {},
-      tmpl: ""
+      tmpl: "",
     };
   },
   methods: {
@@ -54,6 +58,9 @@ export default {
     },
     setError(area, boolean) {
       this.isError[area] = boolean;
+    },
+    setTips(tips){
+      this.$refs.tips.show(tips)
     }
   }
 };

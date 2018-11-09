@@ -17,7 +17,7 @@ export default {
   data(){
     return {
       editor: null,
-      placeholder: '输入sql',
+      placeholder: '输入 Create Table 的 SQL',
     }
   },
   mounted(){
