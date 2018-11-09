@@ -6,8 +6,9 @@
       <SchemaArea :parseData="parseData" :tmpl="tmpl"/>
     </div>
     <div class="container">
-      <ParseArea :sql="sql" :isError="this.isError['parse-area']"/>
-      <TemplateArea  />
+      <ParseArea ref="parse" :sql="sql" :isError="this.isError['parse-area']"/>
+      <TemplateArea :class="{hide: this.setting.area !== 'template'}" />
+      <TypeconfigArea :class="{hide: this.setting.area !== 'typeconfig'}" />
     </div>
     <Tips ref="tips" />
   </div>
@@ -15,11 +16,13 @@
 
 <script>
 import TemplateArea from "./page/TemplateArea.vue";
+import TypeconfigArea from "./page/TypeconfigArea.vue";
 import SqlArea from "./page/SqlArea.vue";
 import SchemaArea from "./page/SchemaArea.vue";
 import ParseArea from "./page/ParseArea.vue";
 import Tips from "./component/Tips.vue";
 import "./tools/placeholder";
+import "./tools/format";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/monokai.css";
 
@@ -28,6 +31,7 @@ export default {
   name: "app",
   components: {
     TemplateArea,
+    TypeconfigArea,
     SqlArea,
     SchemaArea,
     ParseArea,
@@ -44,11 +48,17 @@ export default {
       sql: "",
       parseData: {},
       tmpl: "",
+      setting:{
+        area: 'template'
+      }
     };
   },
   methods: {
     parse(sql) {
       this.sql = sql;
+    },
+    reparse(typemap){
+      this.$refs.parse.parse({typemap})
     },
     build(parseData) {
       if (typeof parseData === "object") this.parseData = parseData;
@@ -61,6 +71,9 @@ export default {
     },
     setTips(tips){
       this.$refs.tips.show(tips)
+    },
+    toggleSetting(area){
+      this.setting.area = area
     }
   }
 };
@@ -95,12 +108,25 @@ h2 {
   text-align: left;
 }
 .err {
-  outline: 3px solid #c22;
+  outline: 5px solid #c22;
 }
 .CodeMirror {
   height: 450px;
 }
 .CodeMirror pre.CodeMirror-placeholder {
   color: #999;
+}
+.hide{
+  display: none
+}
+a {
+  color: #333;
+  font-size: 12px;
+  text-decoration-line: underline;
+  cursor: pointer;
+}
+.toggle{
+  float: right;
+  font-size: 18px;
 }
 </style>

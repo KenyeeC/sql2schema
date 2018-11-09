@@ -8,27 +8,30 @@
 </template>
 
 <script>
-import CodeMirror from 'codemirror/lib/codemirror'
-import 'codemirror/mode/sql/sql'
+import CodeMirror from "codemirror/lib/codemirror";
+import "codemirror/mode/sql/sql";
+import sqlFormatter from "sql-formatter";
 export default {
   props: {
     isError: Boolean
   },
-  data(){
+  data() {
     return {
       editor: null,
-      placeholder: '输入 Create Table 的 SQL',
-    }
+      placeholder: "输入 Create Table 的 SQL"
+    };
   },
-  mounted(){
-    this.editor = CodeMirror.fromTextArea(document.getElementById('sql'), {
-      mode:'sql',
-      theme:'monokai',
-      extraKeys: {"Ctrl": "autocomplete"},
+  mounted() {
+    this.editor = CodeMirror.fromTextArea(document.getElementById("sql"), {
+      mode: "sql",
+      theme: "monokai",
+      extraKeys: { Ctrl: "autocomplete" }
     });
-    this.editor.on("change",editor => {
-      this.$parent.parse(editor.getValue())
+    this.editor.on("change", editor => {
+      const val = editor.getValue();
+      const sql = sqlFormatter.format(val);
+      this.$parent.parse(sql);
     });
   }
-}
+};
 </script>

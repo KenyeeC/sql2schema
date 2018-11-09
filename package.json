@@ -11,6 +11,8 @@
     "balanced-match": "^1.0.0",
     "codemirror": "^5.41.0",
     "dot": "^1.1.2",
+    "js-beautify": "^1.8.8",
+    "sql-formatter": "^2.3.2",
     "vue": "^2.5.17"
   },
   "devDependencies": {

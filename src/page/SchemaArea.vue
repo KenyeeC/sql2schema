@@ -9,6 +9,7 @@
 import doT from "dot";
 import CodeMirror from "codemirror/lib/codemirror";
 import "codemirror/mode/javascript/javascript";
+import jsbeautify from 'js-beautify'
 
 export default {
   props: {
@@ -26,16 +27,12 @@ export default {
       try {
         if (this.parseData) {
           const tmplFn = doT.template(this.tmpl);
-          const data = tmplFn(this.parseData)
-          this.editor.setValue(data.replace(/\\n/g, `
+          const data = tmplFn(this.parseData).replace(/\\n/g, `
           
-`));
+`)
+          this.editor.setValue(jsbeautify(data))
         }
-      } catch (e) {
-        this.placeholder = this.parseData
-          ? "解析数据有误, 请从新输入 SQL 或 直接修改 Data"
-          : "即将生成的schema, 如需修改生成模板, 可在下面修改, 并保存到 localstorage";
-      }
+      } catch (e) {}
     }
   },
   watch: {
@@ -51,7 +48,7 @@ export default {
       mode: "javascript",
       theme: "monokai",
       extraKeys: { Ctrl: "autocomplete" },
-      lineWrapping: true
+      lineWrapping: false
     });
   }
 };

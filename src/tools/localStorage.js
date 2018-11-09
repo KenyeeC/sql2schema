@@ -8,9 +8,9 @@ export default {
     }
   },
   set(key, value) {
-    let data = null;
+    let data = value;
     try {
-      data = JSON.stringify(value);
+      if (typeof value === "object") data = JSON.stringify(value);
     } catch (e) {
       data = value;
     }

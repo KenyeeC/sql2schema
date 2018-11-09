@@ -11,6 +11,8 @@
 import CodeMirror from "codemirror/lib/codemirror";
 import "codemirror/mode/javascript/javascript";
 import util from "../tools/utils";
+import jsbeautify from 'js-beautify'
+
 export default {
   props: {
     sql: String,
@@ -28,7 +30,7 @@ export default {
         mode: "javascript",
         theme: "monokai",
         extraKeys: { Ctrl: "autocomplete" },
-        lineWrapping: true
+        lineWrapping: false
       });
       this.editor.on("change", editor => {
         const value = editor.getValue();
@@ -46,32 +48,36 @@ export default {
     },
     buildSchema(data) {
       this.$parent.build(data);
-    }
-  },
-  watch: {
-    sql(val) {
+    },
+    parse({val, typemap = null}) {
       try {
+        const sql = val || this.sql;
         const result = {
           table: "",
           upperName: "",
           fileds: [],
           types: []
         };
-        const tableStep = util.getBracketsBalance(val);
+        const tableStep = util.getBracketsBalance(sql);
         const tableName = util.getTableName(tableStep.pre);
         if (tableName) {
           result.table = tableName;
           result.upperName = util.getUpperName(tableName);
-          const fields = util.getFields(tableStep.body);
+        }
+        const fields = util.getFields(tableStep.body, typemap);
           result.fileds = fields;
           result.types = util.getTypes(fields);
-          this.editor.setValue(JSON.stringify(result));
-        }
+          this.editor.setValue(jsbeautify(JSON.stringify(result)));
       } catch (e) {
-        val
+        val || this.sql
           ? this.$parent.setError("sql-area", true)
           : this.$parent.setError("sql-area", false);
       }
+    }
+  },
+  watch: {
+    sql(val) {
+      this.parse({val});
     }
   },
   mounted() {

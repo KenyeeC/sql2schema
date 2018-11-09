@@ -12,8 +12,9 @@ export default {
     const data = str.match(singleQuotes);
     return data ? purge(data[0], "`") : data;
   },
-  getFields(body) {
+  getFields(body, customTypeMap) {
     const fields = body.split("\n");
+    const tm = customTypeMap || typeMap;
     return fields
       .map(f => {
         f = purge(f, "\\'");
@@ -29,8 +30,8 @@ export default {
         return {
           name,
           camelName: toCamelName(name),
-          type: Object.keys(typeMap)
-            .filter(key => typeMap[key].includes(type))
+          type: Object.keys(tm)
+            .filter(key => tm[key].includes(type))
             .join(""),
           comment
         };
