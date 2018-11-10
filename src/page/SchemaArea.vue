@@ -19,7 +19,7 @@ export default {
   data() {
     return {
       editor: null,
-      placeholder: '即将生成的schema, 如需修改生成模板, 可在下面修改, 并保存到 localstorage'
+      placeholder: `即将生成的schema, 如需修改, 点击下面自定义`
     };
   },
   methods: {

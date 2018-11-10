@@ -99,7 +99,7 @@ h2 {
 .area {
   text-align: left;
   width: 45%;
-  height: 500px;
+  height: 700px;
   font-size: "14px";
 }
 .area > p {
@@ -111,7 +111,7 @@ h2 {
   outline: 5px solid #c22;
 }
 .CodeMirror {
-  height: 450px;
+  height: 650px;
 }
 .CodeMirror pre.CodeMirror-placeholder {
   color: #999;

@@ -31,7 +31,7 @@ export default {
           mode: "javascript",
           theme: "monokai",
           extraKeys: { Ctrl: "autocomplete" },
-          lineWrapping: true
+          lineWrapping: false
         }
       );
       const typemap = constant.getTypeMap();

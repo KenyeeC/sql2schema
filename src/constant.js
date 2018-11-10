@@ -8,9 +8,26 @@ export default {
     const data = localStorage.get(typemapKey);
     if (data) return data;
     return {
-      GraphQLInt: ["int", "tinyint"],
-      GraphQLString: ["varchar", "text"],
-      GraphQLDateTime: ["timestamp"]
+      GraphQLInt: [
+        "tinyint",
+        "smallint",
+        "mediumint",
+        "int",
+        "float",
+        "double",
+        "real",
+        "decimal"
+      ],
+      GraphQLString: [
+        "bigint",
+        "char",
+        "varchar",
+        "tinytext",
+        "text",
+        "mediumtext",
+        "longtext"
+      ],
+      GraphQLDateTime: ["date", "time", "datetime", "timestamp", "year"]
     };
   },
   schemaTpl: `const { GraphQLObjectType
@@ -27,7 +44,7 @@ const {{= it.upperName}} = new GraphQLObjectType({
   sqlTable: '{{= it.table}}',
   uniqueKey: 'id',
   fields: () => ({
-    {{~ it.fileds :field}}
+    {{~ it.fields :field}}
     {{= field.camelName }}: {
       type: {{= field.type}},
       description: '{{= field.comment}}',
