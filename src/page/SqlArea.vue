@@ -10,7 +10,6 @@
 <script>
 import CodeMirror from "codemirror/lib/codemirror";
 import "codemirror/mode/sql/sql";
-import sqlFormatter from "sql-formatter";
 export default {
   props: {
     isError: Boolean
@@ -29,8 +28,7 @@ export default {
     });
     this.editor.on("change", editor => {
       const val = editor.getValue();
-      const sql = sqlFormatter.format(val);
-      this.$parent.parse(sql);
+      this.$parent.parse(val);
     });
   }
 };

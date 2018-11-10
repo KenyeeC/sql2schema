@@ -14,7 +14,7 @@ import CodeMirror from "codemirror/lib/codemirror";
 import "codemirror/mode/handlebars/handlebars";
 import localstorage from "../tools/localStorage";
 import constant from "../constant";
-import jsbeautify from 'js-beautify'
+import {js as jsbeautify} from "js-beautify";
 
 export default {
   data() {
@@ -35,7 +35,7 @@ export default {
         }
       );
       const typemap = constant.getTypeMap();
-      this.editor.setValue(jsbeautify(JSON.stringify(typemap)));
+      this.editor.setValue(jsbeautify(JSON.stringify(typemap), {indent_size: 2}));
       this.editor.on("change", editor => {
         try {
           const typemap = JSON.parse(this.editor.getValue());

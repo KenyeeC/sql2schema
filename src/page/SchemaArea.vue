@@ -9,7 +9,7 @@
 import doT from "dot";
 import CodeMirror from "codemirror/lib/codemirror";
 import "codemirror/mode/javascript/javascript";
-import jsbeautify from 'js-beautify'
+import {js as jsbeautify} from "js-beautify";
 
 export default {
   props: {
@@ -30,7 +30,7 @@ export default {
           const data = tmplFn(this.parseData).replace(/\\n/g, `
           
 `)
-          this.editor.setValue(jsbeautify(data))
+          this.editor.setValue(jsbeautify(data, {indent_size: 2}))
         }
       } catch (e) {}
     }

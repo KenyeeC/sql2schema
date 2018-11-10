@@ -11,7 +11,7 @@
 import CodeMirror from "codemirror/lib/codemirror";
 import "codemirror/mode/javascript/javascript";
 import util from "../tools/utils";
-import jsbeautify from 'js-beautify'
+import {js as jsbeautify} from "js-beautify";
 
 export default {
   props: {
@@ -49,25 +49,13 @@ export default {
     buildSchema(data) {
       this.$parent.build(data);
     },
-    parse({val, typemap = null}) {
+    parse({ val, typemap = null }) {
       try {
         const sql = val || this.sql;
-        const result = {
-          table: "",
-          upperName: "",
-          fileds: [],
-          types: []
-        };
-        const tableStep = util.getBracketsBalance(sql);
-        const tableName = util.getTableName(tableStep.pre);
-        if (tableName) {
-          result.table = tableName;
-          result.upperName = util.getUpperName(tableName);
-        }
-        const fields = util.getFields(tableStep.body, typemap);
-          result.fileds = fields;
-          result.types = util.getTypes(fields);
-          this.editor.setValue(jsbeautify(JSON.stringify(result)));
+        const ddlSchema = util.ddlToJson(sql);
+        const result = util.simplifySchema(ddlSchema)
+        this.editor.setValue(jsbeautify(JSON.stringify(result), {indent_size: 2}));
+        this.$parent.setError("sql-area", false)
       } catch (e) {
         val || this.sql
           ? this.$parent.setError("sql-area", true)
@@ -77,7 +65,7 @@ export default {
   },
   watch: {
     sql(val) {
-      this.parse({val});
+      this.parse({ val });
     }
   },
   mounted() {
