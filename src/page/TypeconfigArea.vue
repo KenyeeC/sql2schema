@@ -1,9 +1,8 @@
 <template>
-  <div class="area">
+  <div class="area setting">
     <p>type config&nbsp;&nbsp;
       <a @click="this.toLocal">保存</a>&nbsp;&nbsp;
       <a @click="this.delLocal">还原</a>
-      <a class="toggle" @click="this.toggleSetting">template</a>
     </p>
     <textarea id="typeconfig"/>
   </div>
@@ -31,7 +30,8 @@ export default {
           mode: "javascript",
           theme: "monokai",
           extraKeys: { Ctrl: "autocomplete" },
-          lineWrapping: false
+          lineWrapping: false,
+          autoRefresh: true
         }
       );
       const typemap = constant.getTypeMap();
@@ -56,9 +56,6 @@ export default {
       localstorage.del(this.storeKey);
       this.$parent.parse();
       this.$parent.setTips("Done!");
-    },
-    toggleSetting() {
-      this.$parent.toggleSetting("template");
     }
   },
   mounted() {

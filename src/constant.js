@@ -42,7 +42,7 @@ const {{= it.upperName}} = new GraphQLObjectType({
   name: '{{= it.upperName}}',
   sqlDatabase: 'picture_book',
   sqlTable: '{{= it.table}}',
-  uniqueKey: 'id',
+  uniqueKey: '{{= it.primaryKey}}',
   fields: () => ({
     {{~ it.fields :field}}
     {{= field.camelName }}: {

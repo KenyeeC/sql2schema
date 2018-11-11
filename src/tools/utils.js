@@ -5,8 +5,12 @@ const parser = new Parser("mysql");
 const typeMap = constant.getTypeMap();
 
 const parse = {
+  prefixSql(sql) {
+    let purgeSql = sql.replace(/ON UPDATE CURRENT_TIMESTAMP/g, "");
+    return purgeSql;
+  },
   ddlToJson(sql) {
-    parser.feed(sql);
+    parser.feed(parse.prefixSql(sql));
     const parsedJsonFormat = parser.results;
     const [compactJsonTablesArray] = parser.toCompactJson(parsedJsonFormat);
     return compactJsonTablesArray;
@@ -16,6 +20,9 @@ const parse = {
     const result = {};
     result.table = schema.name;
     result.upperName = toCamelName(schema.name, 0);
+    result.primaryKey = schema.primaryKey
+      ? schema.primaryKey.columns[0].column
+      : "id";
     result.fields = schema.columns.map(e => {
       const f = {};
       f.name = e.name;

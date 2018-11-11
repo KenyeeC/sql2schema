@@ -1,5 +1,5 @@
 <template>
-  <div class="area">
+  <div class="area setting">
     <p>data</p>
     <div :class="{err: isError}">
     <textarea id="parser" :placeholder="this.placeholder"/>
@@ -30,7 +30,8 @@ export default {
         mode: "javascript",
         theme: "monokai",
         extraKeys: { Ctrl: "autocomplete" },
-        lineWrapping: false
+        lineWrapping: false,
+        autoRefresh: true
       });
       this.editor.on("change", editor => {
         const value = editor.getValue();

@@ -5,10 +5,11 @@
       <SqlArea :isError="this.isError['sql-area']" />
       <SchemaArea :parseData="parseData" :tmpl="tmpl"/>
     </div>
-    <div class="container">
+    <h2 id="setting" :class="[this.setting ? 'open': 'close']" @click="this.toggleSetting">Setting</h2>
+    <div class="container" :class="{hide: !this.setting}">
+      <TypeconfigArea  />
       <ParseArea ref="parse" :sql="sql" :isError="this.isError['parse-area']"/>
-      <TemplateArea :class="{hide: this.setting.area !== 'template'}" />
-      <TypeconfigArea :class="{hide: this.setting.area !== 'typeconfig'}" />
+      <TemplateArea />
     </div>
     <Tips ref="tips" />
   </div>
@@ -48,9 +49,7 @@ export default {
       sql: "",
       parseData: {},
       tmpl: "",
-      setting:{
-        area: 'template'
-      }
+      setting: false
     };
   },
   methods: {
@@ -72,8 +71,8 @@ export default {
     setTips(tips){
       this.$refs.tips.show(tips)
     },
-    toggleSetting(area){
-      this.setting.area = area
+    toggleSetting(){
+      this.setting = !this.setting
     }
   }
 };
@@ -89,6 +88,39 @@ export default {
   color: #2c3e50;
   margin-top: 20px;
 }
+#setting{
+  margin: 30px 0px;
+  cursor: pointer;
+  position: relative;
+}
+.open:after{
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  margin-left: 53px;
+  width: 0;
+  height: 0;
+  border-width: 10px 8px 0;
+  border-style: solid;
+  border-color: #2c3e50 transparent transparent;
+}
+.close:after{
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  margin-left: 53px;
+  width: 0;
+  height: 0;
+  border-width: 0 8px 10px ;
+  border-style: solid;
+  border-color:  transparent transparent #2c3e50;
+}
 h2 {
   margin: 0;
 }
@@ -101,6 +133,9 @@ h2 {
   width: 45%;
   height: 700px;
   font-size: "14px";
+}
+.setting {
+width: 32%;
 }
 .area > p {
   font-size: 18px;
@@ -117,7 +152,8 @@ h2 {
   color: #999;
 }
 .hide{
-  display: none
+  position: fixed;
+  left: 500%;
 }
 a {
   color: #333;
