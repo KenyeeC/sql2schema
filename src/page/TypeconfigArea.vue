@@ -38,9 +38,11 @@ export default {
       this.editor.setValue(jsbeautify(JSON.stringify(typemap), {indent_size: 2}));
       this.editor.on("change", editor => {
         try {
-          const typemap = JSON.parse(this.editor.getValue());
+          const typemap = JSON.parse(editor.getValue());
           this.$parent.reparse(typemap);
-        } catch (e) {}
+        } catch (e) {
+          // Do nothing
+        }
       });
     },
     setKeyMap(km) {

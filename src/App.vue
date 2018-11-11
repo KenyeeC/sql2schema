@@ -26,7 +26,7 @@ import "./tools/placeholder";
 import "./tools/format";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/monokai.css";
-
+import { setTimeout, clearTimeout } from "timers";
 
 export default {
   name: "app",
@@ -56,8 +56,8 @@ export default {
     parse(sql) {
       this.sql = sql;
     },
-    reparse(typemap){
-      this.$refs.parse.parse({typemap})
+    reparse(typemap) {
+      this.$refs.parse.parse({ typemap });
     },
     build(parseData) {
       if (typeof parseData === "object") this.parseData = parseData;
@@ -68,11 +68,19 @@ export default {
     setError(area, boolean) {
       this.isError[area] = boolean;
     },
-    setTips(tips){
-      this.$refs.tips.show(tips)
+    setTips(tips) {
+      this.$refs.tips.show(tips);
     },
-    toggleSetting(){
-      this.setting = !this.setting
+    toggleSetting() {
+      this.setting = !this.setting;
+      if (this.setting) {
+        const timmer = setTimeout(() => {
+          window.scrollTo(0, document.body.scrollHeight);
+          clearTimeout(timmer);
+        }, 30);
+      } else {
+        window.scrollTo(0, 0);
+      }
     }
   }
 };
@@ -88,18 +96,18 @@ export default {
   color: #2c3e50;
   margin-top: 20px;
 }
-#setting{
-  margin: 30px 0px;
+#setting {
+  margin: 30px 0px 15px 0;
   cursor: pointer;
   position: relative;
 }
-.open:after{
-  content: '';
+.open:after {
+  content: "";
   display: block;
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   margin-left: 53px;
   width: 0;
   height: 0;
@@ -107,19 +115,19 @@ export default {
   border-style: solid;
   border-color: #2c3e50 transparent transparent;
 }
-.close:after{
-  content: '';
+.close:after {
+  content: "";
   display: block;
   position: absolute;
   left: 50%;
   top: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   margin-left: 53px;
   width: 0;
   height: 0;
-  border-width: 0 8px 10px ;
+  border-width: 0 8px 10px;
   border-style: solid;
-  border-color:  transparent transparent #2c3e50;
+  border-color: transparent transparent #2c3e50;
 }
 h2 {
   margin: 0;
@@ -135,7 +143,7 @@ h2 {
   font-size: "14px";
 }
 .setting {
-width: 32%;
+  width: 32%;
 }
 .area > p {
   font-size: 18px;
@@ -151,7 +159,7 @@ width: 32%;
 .CodeMirror pre.CodeMirror-placeholder {
   color: #999;
 }
-.hide{
+.hide {
   position: fixed;
   left: 500%;
 }
@@ -161,7 +169,7 @@ a {
   text-decoration-line: underline;
   cursor: pointer;
 }
-.toggle{
+.toggle {
   float: right;
   font-size: 18px;
 }

@@ -54,7 +54,7 @@ export default {
       try {
         const sql = val || this.sql;
         const ddlSchema = util.ddlToJson(sql);
-        const result = util.simplifySchema(ddlSchema)
+        const result = util.simplifySchema(ddlSchema, typemap)
         this.editor.setValue(jsbeautify(JSON.stringify(result), {indent_size: 2}));
         this.$parent.setError("sql-area", false)
       } catch (e) {

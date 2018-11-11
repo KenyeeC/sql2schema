@@ -32,7 +32,9 @@ export default {
 `)
           this.editor.setValue(jsbeautify(data, {indent_size: 2}))
         }
-      } catch (e) {}
+      } catch (e) {
+        // Do nothing
+      }
     }
   },
   watch: {
