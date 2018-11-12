@@ -9,6 +9,7 @@
 import doT from "dot";
 import CodeMirror from "codemirror/lib/codemirror";
 import "codemirror/mode/javascript/javascript";
+import util from '../tools/utils'
 import {js as jsbeautify} from "js-beautify";
 
 export default {
@@ -26,10 +27,8 @@ export default {
     build() {
       try {
         if (this.parseData) {
-          const tmplFn = doT.template(this.tmpl);
-          const data = tmplFn(this.parseData).replace(/\\n/g, `
-          
-`)
+          const tmplData = doT.template(this.tmpl)(this.parseData);
+          const data = util.formatSchema(tmplData)
           this.editor.setValue(jsbeautify(data, {indent_size: 2}))
         }
       } catch (e) {

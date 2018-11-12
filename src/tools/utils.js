@@ -7,6 +7,7 @@ const typeMap = constant.getTypeMap();
 const parse = {
   prefixSql(sql) {
     let purgeSql = sql.replace(/ON UPDATE CURRENT_TIMESTAMP/g, "");
+    if (!purgeSql.endsWith(";")) purgeSql += ";";
     return purgeSql;
   },
   ddlToJson(sql) {
@@ -45,12 +46,27 @@ const parse = {
       if (!result.includes(e.type)) result.push(e.type);
     });
     return result.filter(e => e);
+  },
+  formatSchema(schema) {
+    return `${schema}`
+      .replace(
+        /\\n/g,
+        `
+          
+`
+      )
+      .replace(
+        /sqlDatabase: 'Your_Datebase_Name',/,
+        `sqlDatabase: 'Your_Datebase_Name',// 可在下面 setting 的 template 处修改成你的数据库名称并保存
+`
+      );
   }
 };
 
 function toCamelName(str, startIndex = 1) {
   return str
     .split("_")
+    .filter(e => e)
     .map((e, index) => {
       const temp = e.split("");
       if (index >= startIndex) temp[0] = `${temp[0]}`.toUpperCase();

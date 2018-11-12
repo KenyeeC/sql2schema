@@ -10,6 +10,7 @@
 <script>
 import CodeMirror from "codemirror/lib/codemirror";
 import "codemirror/mode/sql/sql";
+import constant from "../constant"
 export default {
   props: {
     isError: Boolean
@@ -26,6 +27,8 @@ export default {
       theme: "monokai",
       extraKeys: { Ctrl: "autocomplete" }
     });
+    this.editor.setValue(constant.preset.sql)
+    this.$parent.parse(constant.preset.sql);
     this.editor.on("change", editor => {
       const val = editor.getValue();
       this.$parent.parse(val);

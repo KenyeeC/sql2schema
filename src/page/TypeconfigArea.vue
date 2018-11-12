@@ -56,7 +56,8 @@ export default {
       const confirm = window.confirm("确定还原?");
       if (!confirm) return;
       localstorage.del(this.storeKey);
-      this.$parent.parse();
+      const typemap = constant.getTypeMap();
+      this.editor.setValue(jsbeautify(JSON.stringify(typemap), {indent_size: 2}));
       this.$parent.setTips("Done!");
     }
   },
