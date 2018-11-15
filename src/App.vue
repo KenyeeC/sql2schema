@@ -82,6 +82,16 @@ export default {
         window.scrollTo(0, 0);
       }
     }
+  },
+  mounted(){
+    // 百度统计 https://tongji.baidu.com/sc-web/26790125/home/site/index?siteId=12793658
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?7fae426b1b0c9975c5300f8b65acd402";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
   }
 };
 </script>
