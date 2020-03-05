@@ -28,13 +28,16 @@ const parse = {
       const f = {};
       f.name = e.name;
       f.camelName = toCamelName(e.name);
+      f.datatype = e.type.datatype;
       f.type = Object.keys(tm)
         .filter(key => tm[key].includes(e.type.datatype))
         .join("");
+      f.length = e.type.width || 0;
       f.comment =
         e.options && e.options.comment
           ? e.options.comment
           : toCamelName(e.name);
+      f.options = e.options;
       return f;
     });
     result.types = parse.getTypes(result.fields);
