@@ -18,6 +18,7 @@ const parse = {
   },
   simplifySchema(schema, customTypeMap) {
     const tm = customTypeMap || typeMap;
+    console.log("schema:", schema);
     const result = {};
     result.table = schema.name;
     result.upperName = toCamelName(schema.name, 0);
@@ -32,12 +33,12 @@ const parse = {
       f.type = Object.keys(tm)
         .filter(key => tm[key].includes(e.type.datatype))
         .join("");
-      f.length = e.type.width || 0;
+      f.length = e.type.width || e.type.length || e.type.fractional || 0;
       f.comment =
         e.options && e.options.comment
           ? e.options.comment
           : toCamelName(e.name);
-      f.options = e.options;
+      f.options = { ...e.options, ...e.type };
       return f;
     });
     result.types = parse.getTypes(result.fields);
